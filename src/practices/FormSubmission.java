@@ -1,4 +1,5 @@
 package practices;
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -6,7 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class FormSubmission {
 
@@ -29,28 +32,34 @@ public class FormSubmission {
 		//enter password
 		driver.findElement(By.id("exampleInputPassword1")).sendKeys(password);
 		//check checkbox
-		driver.findElement(By.id("exampleCheck1")).click();
-		Assert.assertTrue(driver.findElement(By.id("exampleCheck1")).isSelected());
+		WebElement exCheckBox = driver.findElement(By.id("exampleCheck1"));
+		exCheckBox.click();
+		Assert.assertTrue(exCheckBox.isSelected());
 		//select a gender
-		WebElement genders = driver.findElement(By.id("exampleFormControlSelect1"));
-		Select gender = new Select(genders);
-		gender.selectByContainsVisibleText(targetGender);
+		WebElement genderSelect = driver.findElement(By.id("exampleFormControlSelect1"));
+		Select genderOption = new Select(genderSelect);
+		genderOption.selectByContainsVisibleText(targetGender);
 		//click a radio button
-		List<WebElement> empDivs = driver.findElements(By.xpath("//div[@class=\"form-check form-check-inline\"]"));
-		System.out.println(empDivs.size());
-		for (WebElement empDiv : empDivs) {
-			if(empDiv.findElement(By.xpath("./label")).getText().equalsIgnoreCase(targetEmploymentStatus)) {
-				System.out.println(empDiv.findElement(By.xpath("./label")).getText());
-				empDiv.findElement(By.xpath("./input")).click();
-				Assert.assertTrue(empDiv.findElement(By.xpath("./input")).isSelected());
+		List<WebElement> empOptGroup = driver.findElements(By.xpath("//div[@class=\"form-check form-check-inline\"]"));
+		System.out.println(empOptGroup.size());
+		for (WebElement empOptDiv : empOptGroup) {
+			String empLblText = empOptDiv.findElement(By.xpath("./label")).getText();
+			if(empLblText.equalsIgnoreCase(targetEmploymentStatus)) {
+				System.out.println(empLblText);
+				WebElement empRadioBtn = empOptDiv.findElement(By.xpath("./input"));
+				empRadioBtn.click();
+				Assert.assertTrue(empRadioBtn.isSelected());
+				break;
 			}
 		}
 		//enter date of birth
 		driver.findElement(By.cssSelector("input[name=\"bday\"]")).sendKeys(dateOfBirth);
 		//click submit button
 		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		// wait until alert appears
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		WebElement alert = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert")));
 		//check the form submission message
-		Thread.sleep(2000);
 		if(driver.findElement(By.className("alert")).getText().contains(successMessage)){
 			Assert.assertTrue(true);
 			System.out.println(driver.findElement(By.className("alert")).getText());
@@ -58,5 +67,7 @@ public class FormSubmission {
 		else {
 			Assert.assertTrue(false);
 		}
+		
+		driver.quit();
 	}
 }
