@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.openqa.selenium.support.ui.Select;
 
 public class FormSubmission {
 
@@ -30,13 +31,10 @@ public class FormSubmission {
 		//check checkbox
 		driver.findElement(By.id("exampleCheck1")).click();
 		Assert.assertTrue(driver.findElement(By.id("exampleCheck1")).isSelected());
-		//click dropdown and select gender
-		List<WebElement> genders = driver.findElements(By.cssSelector("select option"));
-		for(WebElement gender : genders) {
-			if(gender.getText().equalsIgnoreCase(targetGender)){
-				gender.click();
-			}
-		}
+		//select a gender
+		WebElement genders = driver.findElement(By.id("exampleFormControlSelect1"));
+		Select gender = new Select(genders);
+		gender.selectByContainsVisibleText(targetGender);
 		//click a radio button
 		List<WebElement> empDivs = driver.findElements(By.xpath("//div[@class=\"form-check form-check-inline\"]"));
 		System.out.println(empDivs.size());
