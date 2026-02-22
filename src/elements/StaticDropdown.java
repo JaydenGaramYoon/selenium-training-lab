@@ -16,6 +16,7 @@ public class StaticDropdown {
 		WebElement dropDownListCurrency = driver.findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
 		//3.Create Select object for the element
 		Select dropDownCurrency = new Select(dropDownListCurrency);
+		// The argument in new Select() should be the <select> tag that has <option> as child.
 		//4. Select the object by index
 		dropDownCurrency.selectByIndex(3);
 		//Check the selected value
