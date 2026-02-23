@@ -1,4 +1,5 @@
 package practices;
+
 import java.time.Duration;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class FormSubmission {
 		// TODO Auto-generated method stub
 		WebDriver driver = new ChromeDriver();
 		driver.get("https://rahulshettyacademy.com/angularpractice/");
-		//test data
+		// test data
 		String name = "garam";
 		String email = "garam@gmail.com";
 		String password = "garam123";
@@ -25,26 +26,26 @@ public class FormSubmission {
 		String targetEmploymentStatus = "Employed";
 		String dateOfBirth = "3111998";
 		String successMessage = "Success! The Form has been submitted successfully!.";
-		//enter name
+		// enter name
 		driver.findElement(By.cssSelector("div[class=\"form-group\"] input[name=\"name\"]")).sendKeys(name);
-		//enter email
+		// enter email
 		driver.findElement(By.cssSelector("div[class=\"form-group\"] input[name=\"email\"]")).sendKeys(email);
-		//enter password
+		// enter password
 		driver.findElement(By.id("exampleInputPassword1")).sendKeys(password);
-		//check checkbox
+		// check checkbox
 		WebElement exCheckBox = driver.findElement(By.id("exampleCheck1"));
 		exCheckBox.click();
 		Assert.assertTrue(exCheckBox.isSelected());
-		//select a gender
+		// select a gender
 		WebElement genderSelect = driver.findElement(By.id("exampleFormControlSelect1"));
 		Select genderOption = new Select(genderSelect);
 		genderOption.selectByContainsVisibleText(targetGender);
-		//click a radio button
+		// click a radio button
 		List<WebElement> empOptGroup = driver.findElements(By.xpath("//div[@class=\"form-check form-check-inline\"]"));
 		System.out.println(empOptGroup.size());
 		for (WebElement empOptDiv : empOptGroup) {
 			String empLblText = empOptDiv.findElement(By.xpath("./label")).getText();
-			if(empLblText.equalsIgnoreCase(targetEmploymentStatus)) {
+			if (empLblText.equalsIgnoreCase(targetEmploymentStatus)) {
 				System.out.println(empLblText);
 				WebElement empRadioBtn = empOptDiv.findElement(By.xpath("./input"));
 				empRadioBtn.click();
@@ -52,22 +53,21 @@ public class FormSubmission {
 				break;
 			}
 		}
-		//enter date of birth
+		// enter date of birth
 		driver.findElement(By.cssSelector("input[name=\"bday\"]")).sendKeys(dateOfBirth);
-		//click submit button
+		// click submit button
 		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
 		// wait until alert appears
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		WebElement alert = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert")));
-		//check the form submission message
-		if(driver.findElement(By.className("alert")).getText().contains(successMessage)){
+		// check the form submission message
+		if (driver.findElement(By.className("alert")).getText().contains(successMessage)) {
 			Assert.assertTrue(true);
 			System.out.println(driver.findElement(By.className("alert")).getText());
-		}
-		else {
+		} else {
 			Assert.assertTrue(false);
 		}
-		
+
 		driver.quit();
 	}
 }
