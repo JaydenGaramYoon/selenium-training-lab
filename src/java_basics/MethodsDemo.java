@@ -8,7 +8,8 @@ public class MethodsDemo {
 		d.getData();
 		MethodsDemo.getData2();
 		MethodsDemo2 d1 = new MethodsDemo2();
-		d1.getUserData();
+		d1.getUserData(); //when the method is non-static, belongs to specific instance (object) of the class
+		getData2(); //when the method is static -> belongs to the method itself, does not rely on instance data
 	}
 	
 	public void getData() { //if add 'static' the method belongs to the class, not object
