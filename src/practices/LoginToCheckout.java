@@ -29,7 +29,7 @@ public class LoginToCheckout {
 		String status = "Consultant";
 		boolean consent = true;
 		String location = "Toronto";
-		String message = "success";
+		String message = "Success! Thank you! Your order will be delivered in next few weeks :-).";
 
 		// login to the website
 		login(driver, wait, name, password, role, status, consent);
@@ -42,9 +42,12 @@ public class LoginToCheckout {
 
 		// proceed to checkout
 		checkOut(driver, location);
-	
-		//check submission
+
+		// check submission
 		checkSubmission(driver, message);
+		
+		//close browser
+		driver.quit();
 	}
 
 	public static void login(WebDriver driver, WebDriverWait wait, String name, String password, String role,
@@ -71,10 +74,11 @@ public class LoginToCheckout {
 	}
 
 	public static void handleModal(WebDriver driver, WebDriverWait wait, boolean consent) {
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("okayBtn")));
 		if (consent) {
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("okayBtn")));
 			driver.findElement(By.id("okayBtn")).click();
 		} else {
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("cancelBtn")));
 			driver.findElement(By.id("cancelBtn")).click();
 		}
 	}
@@ -96,10 +100,9 @@ public class LoginToCheckout {
 		driver.findElement(By.id("country")).sendKeys(location);
 		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
 	}
-	
+
 	public static void checkSubmission(WebDriver driver, String message) {
-		if(driver.findElement(By.className("alert-success")).getText().equalsIgnoreCase(message)) {
-			Assert.assertTrue(driver.findElement(By.className("alert-success")).getText().equalsIgnoreCase(message));
-		}
+		String successMsg = driver.findElement(By.className("alert-success")).getText();
+		Assert.assertTrue(successMsg.contains(message), "susccess message did not match with the requirement");
 	}
 }
