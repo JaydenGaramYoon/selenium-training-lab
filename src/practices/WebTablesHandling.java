@@ -17,7 +17,7 @@ public class WebTablesHandling {
 		WebElement table = driver.findElement(By.xpath("//table[@name='courses']"));
 		//get the number of rows
 		System.out.println(table.findElements(By.xpath(".//tr")).size());
-		//get the number of columns
+		//get the number of columns (first row has th not td)
 		System.out.println(table.findElements(By.xpath(".//tr/th")).size());
 		//get the second row values
 		List <WebElement> cellsInSecondRow = table.findElements(By.cssSelector("tr:nth-child(3) td"));
