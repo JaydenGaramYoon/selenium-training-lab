@@ -14,21 +14,11 @@ public class WebTablesHandling {
 		WebDriver driver = new ChromeDriver();
 		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
 		//get the table
-		WebElement table = driver.findElement(By.xpath("//table[@name=\"courses\"]"));
+		WebElement table = driver.findElement(By.xpath("//table[@name='courses']"));
 		//get the number of rows
-		List <WebElement> rows = table.findElements(By.tagName("tr"));
-		System.out.println("Table has " + rows.size() + " row(s)");
+		System.out.println(table.findElements(By.xpath(".//tr")).size());
 		//get the number of columns
-		int rowNum = 0;
-		for(WebElement row : rows) {
-			rowNum = rowNum + 1;
-			List <WebElement> columns = row.findElements(By.tagName("td"));
-			int columnNum = 0;
-			for (WebElement column: columns) {
-				columnNum = columnNum + 1;
-			}
-			System.out.println("Row " + rowNum + " has " + columnNum + " column(s)");
-		}
+		System.out.println(table.findElements(By.xpath(".//tr/th")).size());
 		//get the second row values
 		List <WebElement> cellsInSecondRow = table.findElements(By.cssSelector("tr:nth-child(3) td"));
 		for(WebElement cell : cellsInSecondRow) {
