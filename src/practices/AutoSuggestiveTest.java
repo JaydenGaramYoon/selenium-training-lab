@@ -32,11 +32,11 @@ public class AutoSuggestiveTest {
 		// print out all the suggested option values
 		List<WebElement> suggestedOptions = driver.findElements(By.cssSelector("#ui-id-1 li"));
 		for (WebElement option : suggestedOptions) {
-			//using getAttribute
+			// using getAttribute
 			textBox.sendKeys(Keys.DOWN);
 			option.findElement(By.tagName("div")).getText();
 			System.out.println(textBox.getAttribute("value"));
-			//using js executor
+			// using js executor
 			String optionText = "return document.getElementById('autocomplete').value;";
 			String returnedText = (String) js.executeScript(optionText);
 			System.out.println(returnedText);
