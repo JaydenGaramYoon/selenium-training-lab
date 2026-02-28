@@ -1,4 +1,4 @@
-package Streams;
+package stream;
 
 import java.time.Duration;
 import java.util.List;
