@@ -29,21 +29,17 @@ public class AutomatingPagination {
 		do {
 			// get displayed item elements
 			List<WebElement> elementItems = driver.findElements(By.xpath("//tr/td[1]"));
-			// get displayed texts from item elements
-			items = elementItems.stream().filter(name -> name.getText().contains(targetItem))
-					.map(name -> name.getText()).collect(Collectors.toList());
-			System.out.println(items.contains(targetItem));
+			// get price of the item
 			itemPrices = elementItems.stream().filter(name -> name.getText().contains(targetItem))
 					.map(item -> getPrice(item)).collect(Collectors.toList());
 			// check if the list has target item by using .contains()
-			if (!(items.size() > 0)) {
+			if (itemPrices.size() < 1) {
 				// move to next page
 				driver.findElement(By.cssSelector("a[aria-label='Next']")).click();
 				// restart the loop
 			}
-		} while (!items.contains(targetItem));
-		items.forEach(item -> System.out.println("collectionList:" + item));
-		itemPrices.forEach(price -> System.out.println("collectionList" + price));
+		} while (itemPrices.size() < 1);
+		itemPrices.forEach(price -> System.out.println(targetItem + "'s price : " + price));
 	}
 
 	public static String getPrice(WebElement item) {
